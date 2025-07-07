@@ -106,5 +106,5 @@ java -cp ".;lib/*" EventRegistrationSystem
 
 ## 🙋‍♂️ Author
 **Tejas Dhule**
-Tejas Dhule
+.Tejas Dhule, Jaydeep Hole,Tejas Jagdale
 Feel free to fork, clone, and build upon it! Contributions welcome.
