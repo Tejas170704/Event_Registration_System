@@ -49,8 +49,10 @@ CREATE TABLE IF NOT EXISTS event_registrations (
     FOREIGN KEY (event_id) REFERENCES events(id),
     FOREIGN KEY (attendee_id) REFERENCES attendees(id)
 );
-
-## 📌  project Structure
+```
+----
+##📁 Project Structure
+```
 EventRegistrationSystem/
 │
 ├── EventRegistrationSystem.java       # All logic (main + DB + DAO)
@@ -60,9 +62,10 @@ EventRegistrationSystem/
 └── .vscode/
     ├── tasks.json                     # Build tasks
     └── launch.json                    # Run configuration
-
-🚀 How to Run
-1. Install Requirements
+```
+---
+##🚀 How to Run
+```1. Install Requirements
 Java JDK 11+
 MySQL Server
 MySQL JDBC Driver (place .jar in /lib folder)
@@ -76,21 +79,32 @@ Update your MySQL credentials in DBConnection.getConnection() inside EventRegist
 To Compile:
 Use Ctrl+Shift+B or run:
 javac -cp "lib/*" EventRegistrationSystem.java
+```
 
-
-📚 Concepts Covered
-Java OOP (Encapsulation, Abstraction)
+---
+##📚 Concepts Covered
+```Java OOP (Encapsulation, Abstraction)
 JDBC (PreparedStatement, ResultSet)
 SQL (DDL, DML, Joins, Constraints)
 VS Code Java Debug and Tasks
 Command-line Java app structure
+```
+---
 
-📌 Future Improvements
-Add GUI using JavaFX or Swing
+##📌 Future Improvements
+```Add GUI using JavaFX or Swing
 Email confirmation using JavaMail
 Admin dashboard for event overview
 Export reports to CSV/PDF
+````
 
-🙋‍♂️ Author
+## 📁 How to Run
+```bash
+javac -cp "lib/*" EventRegistrationSystem.java
+java -cp ".;lib/*" EventRegistrationSystem
+```
+
+## 🙋‍♂️ Author
+**Tejas Dhule**
 Tejas Dhule
 Feel free to fork, clone, and build upon it! Contributions welcome.
