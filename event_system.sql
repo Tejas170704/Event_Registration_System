@@ -22,3 +22,15 @@ CREATE TABLE IF NOT EXISTS event_registrations (
     FOREIGN KEY (attendee_id) REFERENCES attendees(id)
 );
 show tables
+INSERT INTO events (name, location, date) VALUES
+('Birthday', 'Pune', '2025-07-17'),
+('Cultural Event', 'Talegaon', '2025-08-25');
+INSERT INTO attendees (name, email) VALUES
+('Tejas Dhule', 'tejasdhule@example.com'),
+('Tejas Jagdle', 'tejasjagdle@example.com'),
+('Jaydeep', 'jaydeep@example.com');
+SELECT * FROM events;
+SELECT * FROM attendees;
+INSERT INTO event_registrations (event_id, attendee_id) VALUES
+(1, 1),
+(2, 2);
