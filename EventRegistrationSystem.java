@@ -4,8 +4,8 @@ import java.util.*;
 class DBConnection {
     public static Connection getConnection() throws Exception {
         String url = "jdbc:mysql://localhost:3306/event_system";
-        String user = "root"; // change this if needed
-        String password = "your_password"; // change this
+        String user = "root"; // change as needed
+        String password = "17072004"; // change as needed
         Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(url, user, password);
     }
@@ -35,8 +35,10 @@ class Event {
     public String getLocation() { return location; }
     public String getDate() { return date; }
 
+    @Override
     public String toString() {
-        return id + ": " + name + " at " + location + " on " + date;
+        return String.format("Event ID: %-4d | Name: %-20s | Location: %-15s | Date: %s",
+                             id, name, location, date);
     }
 }
 
@@ -60,8 +62,10 @@ class Attendee {
     public String getName() { return name; }
     public String getEmail() { return email; }
 
+    @Override
     public String toString() {
-        return id + ": " + name + " (" + email + ")";
+        return String.format("Attendee ID: %-4d | Name: %-20s | Email: %s",
+                             id, name, email);
     }
 }
 
@@ -86,10 +90,10 @@ class EventDAO {
             ResultSet rs = stmt.executeQuery("SELECT * FROM events");
             while (rs.next()) {
                 events.add(new Event(
-                    rs.getInt("id"),
-                    rs.getString("name"),
-                    rs.getString("location"),
-                    rs.getString("date")
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("location"),
+                        rs.getString("date")
                 ));
             }
         } catch (Exception e) {
@@ -133,9 +137,9 @@ class AttendeeDAO {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 attendees.add(new Attendee(
-                    rs.getInt("id"),
-                    rs.getString("name"),
-                    rs.getString("email")
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("email")
                 ));
             }
         } catch (Exception e) {
@@ -164,58 +168,80 @@ public class EventRegistrationSystem {
         AttendeeDAO attendeeDAO = new AttendeeDAO();
 
         while (true) {
-            System.out.println("\n1. Create Event\n2. List Events\n3. Register Attendee\n4. View Attendees\n5. Cancel Registration\n6. Exit");
+            System.out.println("\n====== Event Registration System ======");
+            System.out.println("1. Create Event");
+            System.out.println("2. List Events");
+            System.out.println("3. Register Attendee");
+            System.out.println("4. View Attendees");
+            System.out.println("5. Cancel Registration");
+            System.out.println("6. Exit");
+            System.out.print("Enter your choice: ");
             int choice = sc.nextInt();
-            sc.nextLine(); // clear newline
+            sc.nextLine(); // consume newline
 
             switch (choice) {
                 case 1:
-                    System.out.print("Event name: ");
+                    System.out.print("Enter Event Name: ");
                     String name = sc.nextLine();
-                    System.out.print("Location: ");
+                    System.out.print("Enter Location: ");
                     String location = sc.nextLine();
-                    System.out.print("Date (YYYY-MM-DD): ");
+                    System.out.print("Enter Date (YYYY-MM-DD): ");
                     String date = sc.nextLine();
                     eventDAO.addEvent(new Event(name, location, date));
+                    System.out.println("Event added successfully!");
                     break;
 
                 case 2:
                     List<Event> events = eventDAO.getAllEvents();
+                    System.out.println("\n--- List of Events ---");
+                    System.out.printf("%-10s %-25s %-20s %-12s\n", "Event ID", "Name", "Location", "Date");
+                    System.out.println("---------------------------------------------------------------");
                     for (Event e : events) {
-                        System.out.println(e);
+                        System.out.printf("%-10d %-25s %-20s %-12s\n",
+                                e.getId(), e.getName(), e.getLocation(), e.getDate());
                     }
                     break;
 
                 case 3:
-                    System.out.print("Event ID: ");
+                    System.out.print("Enter Event ID: ");
                     int eventId = sc.nextInt();
                     sc.nextLine();
-                    System.out.print("Attendee Name: ");
+                    System.out.print("Enter Attendee Name: ");
                     String attendeeName = sc.nextLine();
-                    System.out.print("Email: ");
+                    System.out.print("Enter Email: ");
                     String email = sc.nextLine();
                     attendeeDAO.registerAttendee(new Attendee(attendeeName, email), eventId);
+                    System.out.println("Attendee registered successfully!");
                     break;
 
                 case 4:
-                    System.out.print("Event ID: ");
+                    System.out.print("Enter Event ID: ");
                     int viewId = sc.nextInt();
                     List<Attendee> attendees = attendeeDAO.getAttendeesForEvent(viewId);
+                    System.out.println("\n--- Attendees for Event ID: " + viewId + " ---");
+                    System.out.printf("%-15s %-25s %-30s\n", "Attendee ID", "Name", "Email");
+                    System.out.println("------------------------------------------------------------");
                     for (Attendee a : attendees) {
-                        System.out.println(a);
+                        System.out.printf("%-15d %-25s %-30s\n",
+                                a.getId(), a.getName(), a.getEmail());
                     }
                     break;
 
                 case 5:
-                    System.out.print("Event ID: ");
+                    System.out.print("Enter Event ID: ");
                     int eId = sc.nextInt();
-                    System.out.print("Attendee ID: ");
+                    System.out.print("Enter Attendee ID: ");
                     int aId = sc.nextInt();
                     attendeeDAO.cancelRegistration(eId, aId);
+                    System.out.println("Registration canceled successfully!");
                     break;
 
                 case 6:
+                    System.out.println("Thank you for using the Event Registration System. Goodbye!");
                     System.exit(0);
+
+                default:
+                    System.out.println("Invalid choice. Please try again.");
             }
         }
     }
